@@ -12,13 +12,9 @@ const theme = createTheme({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
-    {" "}
-    <ThemeProvider theme={theme}>
-      <Home />
-    </ThemeProvider>
-    ,
-  </React.StrictMode>,
+  <ThemeProvider theme={theme}>
+    <Home />
+  </ThemeProvider>,
   document.getElementById("root")
 );
 

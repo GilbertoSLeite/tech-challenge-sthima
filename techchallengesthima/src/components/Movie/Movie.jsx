@@ -90,5 +90,5 @@ const Movie = (documentaries) => {
 export default Movie;
 
 Movie.propTypes = {
-  documentaries: PropTypes.string.isRequired,
+  documentaries: PropTypes.string,
 };

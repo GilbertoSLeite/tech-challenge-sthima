@@ -1,7 +1,7 @@
 import axios from "axios";
 import BooleanValidation from "../booleanValidation/booleanValidation";
 
-const url = "https://www.omdbapi.com/?apikey=925eba28&s=";
+const url = "https://techchallengesthima.herokuapp.com/techchallenge/filmes/";
 const SearchData = async (titleMovie) => {
   try {
     const requestOptions = {
@@ -12,10 +12,11 @@ const SearchData = async (titleMovie) => {
       redirect: "follow",
     };
     const response = await axios.get(url + titleMovie, requestOptions);
+
     !BooleanValidation[response.status] &&
       console.error(JSON.stringify(response.data.Search));
 
-    return response.data.Search;
+    return response.data.data;
   } catch (error) {
     console.error("Ocorreu " + error + " em " + url);
   }

@@ -50,7 +50,7 @@ const Main = () => {
             type="text"
             InputProps={{
               endAdornment: (
-                <InputAdornment>
+                <InputAdornment position="end">
                   <IconButton onClick={SearchMovie}>
                     <SearchIcon />
                   </IconButton>
