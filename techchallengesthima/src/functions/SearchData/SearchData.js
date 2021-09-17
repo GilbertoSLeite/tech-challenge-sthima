@@ -15,8 +15,7 @@ const SearchData = async (titleMovie) => {
 
     !BooleanValidation[response.status] &&
       console.error(JSON.stringify(response.data.Search));
-
-    return response.data.data;
+    return response.data.data === undefined ? [] : response.data.data;
   } catch (error) {
     console.error("Ocorreu " + error + " em " + url);
   }
