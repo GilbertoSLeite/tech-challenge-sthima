@@ -1,4 +1,4 @@
-const cacheMovies = require("../../../infrastructure/database/cache");
+const cacheMovies = require("../../../../infrastructure/database/cache");
 
 const GetCacheMovies = async (titleMovies) => {
   try {

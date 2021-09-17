@@ -13,19 +13,22 @@ redis_client.on("error", (err) => {
 redis_client.on("connect", function () {
   console.log("Connected!");
 });
-async function saveWithTimeToLive(key, value, ttlSecond = 60) {
-  //return await setAsyncEx(key, ttlSecond, JSON.stringify(value));
-}
 
-async function getData(key) {
+const InsertCache = async (key, value) => {
+  for (const dados of value) {
+    return redis_client.set(key, JSON.stringify(dados));
+  }
+};
+
+const getData = async (key) => {
   console.log("key:", key.toString());
   redis_client.get(key, function (err, reply) {
     err && console.log("Ocorreu erro: ", err);
     return JSON.parse(reply);
   });
-}
+};
 
 module.exports = {
-  saveWithTimeToLive,
+  InsertCache,
   getData,
 };

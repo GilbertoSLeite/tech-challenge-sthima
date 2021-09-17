@@ -1,7 +1,8 @@
-const movies = require("../../../infrastructure/database").movies;
-const ReturnCacheMovie = require("./searchMovieCache");
-const ReturnDataBaseMovie = require("./searchMovieDataBase");
-const ReturnExternApiMovie = require("./searchMovieExternApi");
+const ReturnCacheMovie = require("./searchData/searchMovieCache");
+const ReturnDataBaseMovie = require("./searchData/searchMovieDataBase");
+const ReturnExternApiMovie = require("./searchData/searchMovieExternApi");
+const PostMovieCache = require("./insertData/insertMovieCache");
+const PostMovieDataBase = require("./insertData/insertMovieDataBase");
 
 const GetMovies = async (request, response) => {
   try {
@@ -15,13 +16,22 @@ const GetMovies = async (request, response) => {
       request.params.title_movies
     );
     if (cacheMovie) {
-      response.status(200).send(cacheMovie);
+      response.status(200).send({ cacheMovie });
     }
     if (dataBaseMovie) {
-      response.status(200).send(dataBaseMovie);
+      await PostMovieCache.PostCacheMovies(
+        request.params.title_movies,
+        externApiMovie
+      );
+      response.status(200).send({ dataBaseMovie });
     }
     if (!cacheMovie && !dataBaseMovie) {
-      response.status(200).send(externApiMovie);
+      await PostMovieCache.PostCacheMovies(
+        request.params.title_movies,
+        externApiMovie
+      );
+      await PostMovieDataBase.PostMoviesDataBase(externApiMovie);
+      response.status(200).send({ externApiMovie });
     }
   } catch (error) {
     console.log("Error BusinessRules: ", error);
@@ -32,29 +42,6 @@ const GetMovies = async (request, response) => {
   }
 };
 
-const PostMovies = async (request, response) => {
-  try {
-    const moviesPost = await movies.create({
-      id: request.body.id,
-      title_movies: request.body.title_movies,
-      year_movies: request.body.year_movies,
-      imdb_id: request.body.imdb_id,
-      hash_id_movies: request.body.hash_id_movies,
-    });
-    response.status(200).send({
-      data: moviesPost,
-      statusPost: true,
-    });
-  } catch (error) {
-    console.log("Error BusinessRules: ", error);
-    response.status(404).send({
-      error: error.parent,
-      statusPost: false,
-    });
-  }
-};
-
 module.exports = {
   GetMovies,
-  PostMovies,
 };

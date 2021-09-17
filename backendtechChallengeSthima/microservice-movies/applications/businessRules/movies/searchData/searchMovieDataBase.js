@@ -1,10 +1,13 @@
-const movies = require("../../../infrastructure/database").movies;
+const movies = require("../../../../infrastructure/database").movies;
+const { Op } = require("sequelize");
 
 const GetMoviesDataBase = async (titleMovie) => {
   try {
-    const moviesGet = await movies.findOne({
+    const moviesGet = await movies.findAll({
       where: {
-        title_movies: titleMovie,
+        title_movies: {
+          [Op.iLike]: `${titleMovie}%`,
+        },
       },
     });
     return !moviesGet ? false : moviesGet;

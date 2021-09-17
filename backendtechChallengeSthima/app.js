@@ -18,10 +18,6 @@ const corsOptions = {
     "Content-Type, X-Amz-Date, Authorization, X-Api-Key, X-Amz-Security-Token",
 };
 
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,9 +36,6 @@ app.get("/", (req, res) => {
 app.use(cors(corsOptions));
 
 require("./microservice-movies/interface/routes/movies/routes_movies")(app);
-require("./microservice-movies/interface/routes/movies_covers/routes_movies_covers")(
-  app
-);
 
 // catch 404 and forward to error handler
 function ErroStatus(req, res, next) {

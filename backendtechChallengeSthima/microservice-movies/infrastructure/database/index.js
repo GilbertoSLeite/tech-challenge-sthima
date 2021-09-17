@@ -20,9 +20,5 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.movies = require("./schema/movies/movies")(sequelize, Sequelize);
-db.movies_covers = require("./schema/movies_covers/movies_covers")(
-  sequelize,
-  Sequelize
-);
 
 module.exports = db;

@@ -18,22 +18,28 @@ module.exports = (sequelize, DataType) => {
         comment: "Coluna com o Nome do Filme.",
       },
       year_movies: {
-        type: DataType.BIGINT,
+        type: DataType.STRING,
         unique: false,
         allowNull: false,
         comment: "Coluna com o Ano do Filme.",
       },
       imdb_id: {
-        type: DataType.BIGINT,
+        type: DataType.STRING,
         unique: true,
         allowNull: false,
         comment: "Coluna com o Id IMDB do Filme.",
       },
-      hash_id_movies: {
-        type: DataType.STRING,
-        unique: true,
+      type_movies: {
+        type: DataType.STRING(20),
+        unique: false,
         allowNull: false,
-        comment: "Identificador independente para serviço de filmes.",
+        comment: "Coluna com a Capa do Filme.",
+      },
+      posters_movies: {
+        type: DataType.STRING,
+        unique: false,
+        allowNull: false,
+        comment: "Coluna com a Capa do Filme.",
       },
     },
     {
