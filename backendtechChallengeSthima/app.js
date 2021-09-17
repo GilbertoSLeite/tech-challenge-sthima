@@ -1,41 +1,70 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const cors = require("cors");
+var createError = require("http-errors");
+var cookieParser = require("cookie-parser");
+var logger = require("morgan");
+var express = require("express");
+var path = require("path");
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const db = require("./microservice-movies/infrastructure/database/index");
+
+db.sequelize.sync();
 
 var app = express();
 
+const corsOptions = {
+  origin: "*",
+  methods: "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT",
+  allowedHeaders:
+    "Content-Type, X-Amz-Date, Authorization, X-Api-Key, X-Amz-Security-Token",
+};
+
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
 
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// Home Page
+app.get("/", (req, res) => {
+  res.json({
+    message:
+      "Seja bem vindo ao projeto de Backend do Recrutamento da Empresa Sthima.",
+  });
+});
+
+// Analisar Cors do Navegador
+app.use(cors(corsOptions));
+
+require("./microservice-movies/interface/routes/movies/routes_movies")(app);
+require("./microservice-movies/interface/routes/movies_covers/routes_movies_covers")(
+  app
+);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+function ErroStatus(req, res, next) {
+  return (
+    res.statusCode >= 400 &&
+    res.statusCode <= 511 &&
+    next(createError(res.statusCode))
+  );
+}
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+// eslint-disable-next-line no-unused-vars
+function errorHandler(err, req, res, next) {
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+  res.locals.error = req.app.get("env") === "development" ? err : next(err);
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
-});
+}
+
+// error handler
+app.use(errorHandler);
+
+// catch 404 and forward to error handler
+app.use(ErroStatus);
 
 module.exports = app;

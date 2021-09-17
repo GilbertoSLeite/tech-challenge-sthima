@@ -1,8 +1,8 @@
 import axios from "axios";
 import BooleanValidation from "../booleanValidation/booleanValidation";
 
-const url = "https://www.omdbapi.com/?apikey=925eba28&s=batman";
-const SearchData = async () => {
+const url = "https://www.omdbapi.com/?apikey=925eba28&s=";
+const SearchData = async (titleMovie) => {
   try {
     const requestOptions = {
       headers: {
@@ -11,7 +11,7 @@ const SearchData = async () => {
       method: "GET",
       redirect: "follow",
     };
-    const response = await axios.get(url, requestOptions);
+    const response = await axios.get(url + titleMovie, requestOptions);
     !BooleanValidation[response.status] &&
       console.error(JSON.stringify(response.data.Search));
 

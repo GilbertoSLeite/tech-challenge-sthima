@@ -1,3 +1,13 @@
 # tech-challenge-sthima
 
-Projeto para recrutamento da empresa Sthima
+Software de busca de filmes.
+
+## Tecnologias utilizadas:
+
+- ReactJS
+- Material-UI
+- NodeJS
+- Redis
+- ExpressJS
+- SequelizeJS
+- PostgreSQL

@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
-import AppBar from "../components/AppBar/AppBar";
 import Loading from "../components/Loading/Loading";
 import routes from "../routes/routes";
 
@@ -34,7 +33,6 @@ const Home = () => {
     <Router>
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar />
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <React.Suspense fallback={<Loading />}>
